@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.params import Body
 
 app = FastAPI()
 
@@ -26,3 +27,9 @@ async def root():
 def get_posts():
   """ Test endpoint to return all yours posts """
   return {"data": "This is your posts"}
+
+
+@app.post("/create_posts")
+def create_posts(payload: dict = Body(...)):
+  print(payload)
+  return {"message": f"title {payload['title']} content: {payload['content']}"}
