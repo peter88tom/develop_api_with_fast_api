@@ -21,6 +21,14 @@ my_posts = [
   {"id":3, "title": "Post 3", "content": "Content of post 3"},
 ]
 
+# Method to retrieve a single post
+def find_post(id):
+  for post in my_posts:
+    if post['id'] == id:
+      return post
+
+
+
 @app.get("/")
 def root():
   return {"message": "Hello world"}
@@ -45,3 +53,8 @@ def create_post(post: Post):
   return {"data": post}
 
 
+
+@app.get("/posts/{id}")
+def get_post(id: int):
+  post = find_post(id)
+  return {"data": post}
