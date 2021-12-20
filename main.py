@@ -8,6 +8,7 @@ app = FastAPI()
 class Post(BaseModel):
   title: str
   content: str
+  published: bool = True
 
 """
 Test function to check if the environment installed works collect
