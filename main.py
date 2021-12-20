@@ -19,3 +19,10 @@ app is the instance of fastapi
 @app.get("/")
 async def root():
   return {"message": "Welcome to my social media api"}
+
+
+
+@app.get("/posts")
+def get_posts():
+  """ Test endpoint to return all yours posts """
+  return {"data": "This is your posts"}
