@@ -1,0 +1,5 @@
+# List of references using in development
+1/ https://fastapi.tiangolo.com/tutorial/
+2/ https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+3/ https://www.postgresql.org
+4/ https://www.psycopg.org/docs/
