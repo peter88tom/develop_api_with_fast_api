@@ -85,12 +85,20 @@ def delete_post(id: int):
 # Update a post
 @app.put("/posts/{id}")
 def update_post(id: int, post: Post):
+  #Find an index of a post by using given id
   index = find_index_post(id)
+
+  # Raise an exception if does not exist
   if index == None:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The post with id: {id} does not exists")
+
+  # If exists convert it into dictionary
   post_dict = post.dict()
+
+  # Set the id to a given id
   post_dict["id"] = id
-  print(post_dict)
+
+  # Replace the index from my_posts with posted dictionary
   my_posts[index] = post_dict
   return {"data": post_dict}
 
