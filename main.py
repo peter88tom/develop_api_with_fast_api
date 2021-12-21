@@ -98,7 +98,7 @@ def update_post(id: int, post: Post):
   # Set the id to a given id
   post_dict["id"] = id
 
-  # Replace the index from my_posts with posted dictionary
+  # Replace the post index with posted dictionary
   my_posts[index] = post_dict
   return {"data": post_dict}
 
