@@ -15,7 +15,7 @@ class Post(BaseModel):
   title: str
   content: str
   published: bool  = True
-  rating: Optional[int] = None
+
 
 # Database connect
 while True:
@@ -60,21 +60,22 @@ def root():
 def get_posts():
   cursor.execute("""SELECT * FROM posts""")
   posts= cursor.fetchall()
-  print(posts)
   return {"data": posts}
 
 
 # Create a post
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_post(post: Post):
-  post_dict = post.dict()
+  cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
+                 post.title, post.content, post.published))
 
-  # Generate random id
-  post_dict['id'] = randrange(0,1000000)
+  # Commit changes to the database
+  conn.commit()
 
-  # Append the new post
-  my_posts.append(post_dict)
-  return {"data": post}
+  # Fetch the current created post
+  new_post = cursor.fetchone()
+
+  return {"data": new_post}
 
 # Get single post
 @app.get("/posts/{id}")
