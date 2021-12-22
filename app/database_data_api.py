@@ -67,7 +67,7 @@ def get_posts():
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
 def create_post(post: Post):
   cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
-                 post.title, post.content, post.published))
+                 post.title, post.content, post.published),)
 
   # Commit changes to the database
   conn.commit()
@@ -93,11 +93,12 @@ def get_post(id: int):
 @app.delete("/posts/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int):
   # delete a post
-  # find the index in the array for request id and pop it out of array
-  index = find_index_post(id)
-  if index == None:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The post with id: {id} does not exists")
-  my_posts.pop(index)
+  cursor.execute(""" DELETE FROM posts WHERE id=%s RETURNING *""",(str(id),))
+  deleted_post = cursor.fetchone()
+  conn.commit()
+
+  if deleted_post == None:
+    raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f"The post with id: {id} does not exists")
   return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
