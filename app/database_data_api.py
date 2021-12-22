@@ -30,26 +30,7 @@ while True:
           print("Could not connect to the database")
           time.sleep(2)
 
-# Define default data
-my_posts = [
-  {"id":1, "title": "Post 1", "content": "Content of post 1"},
-  {"id":2, "title": "Post 2", "content": "Content of post 2"},
-  {"id":3, "title": "Post 3", "content": "Content of post 3"},
-]
-
-# Method to retrieve a single post
-def find_post(id):
-  for post in my_posts:
-    if post['id'] == id:
-      return post
-
-
-# Delete a post
-def find_index_post(id):
-  for i, p in enumerate(my_posts):
-    if p["id"] == id:
-      return i
-
+          
 @app.get("/")
 def root():
   return {"message": "Hello world"}
@@ -106,22 +87,17 @@ def delete_post(id: int):
 # Update a post
 @app.put("/posts/{id}")
 def update_post(id: int, post: Post):
-  #Find an index of a post by using given id
-  index = find_index_post(id)
+  cursor.execute(""" UPDATE posts SET title=%s, content=%s, published=%s WHERE id=%s RETURNING *""", (
+    post.title,
+    post.content, post.published,str(id)),)
+
+  updated_post = cursor.fetchone()
+  conn.commit()
 
   # Raise an exception if does not exist
-  if index == None:
+  if updated_post == None:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The post with id: {id} does not exists")
-
-  # If exists convert it into dictionary
-  post_dict = post.dict()
-
-  # Set the id to a given id
-  post_dict["id"] = id
-
-  # Replace the post index with posted dictionary
-  my_posts[index] = post_dict
-  return {"data": post_dict}
+  return {"data": post}
 
 
 
