@@ -29,7 +29,7 @@ while True:
           print(e)
           print("Could not connect to the database")
           time.sleep(2)
-          
+
 @app.get("/")
 def root():
   return {"message": "Hello world"}
