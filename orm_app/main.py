@@ -57,15 +57,22 @@ def get_posts(db: Session = Depends(get_db)):
 
 # Create a post
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_post(post: Post):
-  cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
-                 post.title, post.content, post.published),)
+def create_post(post: Post, db: Session = Depends(get_db)):
+  # cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
+  #                post.title, post.content, post.published),)
+  #
+  # # Commit changes to the database
+  # conn.commit()
+  #
+  # # Fetch the current created post
+  # new_post = cursor.fetchone()
 
-  # Commit changes to the database
-  conn.commit()
+  # Orm create post
+  new_post = models.Post(title=post.title, content=post.content, published=post.published)
+  db.add(new_post)
+  db.commit()
 
-  # Fetch the current created post
-  new_post = cursor.fetchone()
+  db.refresh(new_post)
 
   return {"data": new_post}
 
