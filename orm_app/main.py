@@ -43,7 +43,8 @@ def root():
 
 @app.get("/sqlalchemy")
 def test_posts(db: Session = Depends(get_db)):
-  return {"status": "Connection was successfully"}
+  posts = db.query(models.Post).all()
+  return {"data": posts}
 
 # Get list of posts
 @app.get("/posts")
