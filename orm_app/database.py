@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-# Create a database URL for SQLALchemy
+# Create a database URL for SQLAlchemy
 SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:interface!!@localhost/social_media'
 
 # Create the SQLALchemy engine
