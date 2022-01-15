@@ -14,3 +14,13 @@ SessionLocal = sessionmaker(autocommit=False, autflush=False, bind=engine)
 
 # Create a Base class
 Base = declarative_base()
+
+
+
+# Dependency, For getting a session from the database each time we execute
+def get_db():
+  db = SessionLocal()
+  try:
+    yield db
+  finally:
+    db.close()

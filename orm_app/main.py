@@ -7,7 +7,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
 from . import models
-from .database import engine, SessionLocal
+from .database import engine, get_db
 from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
@@ -15,13 +15,7 @@ models.Base.metadata.create_all(bind=engine)
 # Create instance
 app = FastAPI()
 
-# Dependency, For getting a session from the database each time we execute
-def get_db():
-  db = SessionLocal()
-  try:
-    yield db
-  finally:
-    db.close()
+
 
 # Define fields
 class Post(BaseModel):
