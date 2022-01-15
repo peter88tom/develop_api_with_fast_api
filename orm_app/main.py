@@ -68,7 +68,9 @@ def create_post(post: Post, db: Session = Depends(get_db)):
   # new_post = cursor.fetchone()
 
   # Orm create post
-  new_post = models.Post(title=post.title, content=post.content, published=post.published)
+  # new_post = models.Post(title=post.title, content=post.content, published=post.published)
+  """ If we have too many fields we need to automatically unpack the fields using **post.dict()"""
+  new_post = models.Post(**post.dict())
   db.add(new_post)
   db.commit()
 
