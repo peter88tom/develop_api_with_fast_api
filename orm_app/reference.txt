@@ -16,3 +16,8 @@ SQLALCHEMY
 
 
 
+FastAPI links
+------------------
+https://fastapi.tiangolo.com/tutorial/sql-databases/?h=databases
+
+

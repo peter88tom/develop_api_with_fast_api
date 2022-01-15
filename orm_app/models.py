@@ -2,7 +2,7 @@ from .database import Base
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
-class Post(Base)
+class Post(Base):
   __tablename__ = 'posts'
 
   id = Column(Integer, primary_key=True, nullable=False)

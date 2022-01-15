@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, status, HTTPException
+from fastapi import Depends, FastAPI, Response, status, HTTPException
 from fastapi.params import Body
 from pydantic import BaseModel
 from typing import  Optional
@@ -6,9 +6,22 @@ from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
+from . import models
+from .database import engine, SessionLocal
+from sqlalchemy.orm import Session
+
+models.Base.metadata.create_all(bind=engine)
 
 # Create instance
 app = FastAPI()
+
+# Dependency, For getting a session from the database each time we execute
+def get_db():
+  db = SessionLocal()
+  try:
+    yield db
+  finally:
+    db.close()
 
 # Define fields
 class Post(BaseModel):
@@ -34,6 +47,9 @@ while True:
 def root():
   return {"message": "Hello world"}
 
+@app.get("/sqlalchemy")
+def test_posts(db: Session = Depends(get_db)):
+  return {"status": "Connection was successfully"}
 
 # Get list of posts
 @app.get("/posts")
