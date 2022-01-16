@@ -1,12 +1,11 @@
 from fastapi import Depends, FastAPI, Response, status, HTTPException
 from fastapi.params import Body
-from pydantic import BaseModel
 from typing import  Optional
 from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
-from . import models
+from . import models, schemas
 from .database import engine, get_db
 from sqlalchemy.orm import Session
 
@@ -15,36 +14,24 @@ models.Base.metadata.create_all(bind=engine)
 # Create instance
 app = FastAPI()
 
-
-
-# Define fields
-class Post(BaseModel):
-  title: str
-  content: str
-  published: bool  = True
-
-
 # Database connect
-while True:
-        try:
-          conn = psycopg2.connect(host="localhost", database="social_media", user="postgres",
-                                  password="interface!!", cursor_factory=RealDictCursor)
-          cursor = conn.cursor()
-          print("Database connection was successfully")
-          break
-        except Exception as e:
-          print(e)
-          print("Could not connect to the database")
-          time.sleep(2)
+# while True:
+#         try:
+#           conn = psycopg2.connect(host="localhost", database="social_media", user="postgres",
+#                                   password="interface!!", cursor_factory=RealDictCursor)
+#           cursor = conn.cursor()
+#           print("Database connection was successfully")
+#           break
+#         except Exception as e:
+#           print(e)
+#           print("Could not connect to the database")
+#           time.sleep(2)
 
 @app.get("/")
 def root():
   return {"message": "Hello world"}
 
-@app.get("/sqlalchemy")
-def test_posts(db: Session = Depends(get_db)):
-  posts = db.query(models.Post).all()
-  return {"data": posts}
+
 
 # Get list of posts
 @app.get("/posts")
@@ -57,7 +44,7 @@ def get_posts(db: Session = Depends(get_db)):
 
 # Create a post
 @app.post("/posts", status_code=status.HTTP_201_CREATED)
-def create_post(post: Post, db: Session = Depends(get_db)):
+def create_post(post: schemas.CreatePost, db: Session = Depends(get_db)):
   # cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
   #                post.title, post.content, post.published),)
   #
@@ -111,7 +98,7 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 # Update a post
 @app.put("/posts/{id}")
-def update_post(id: int, post: Post, db: Session = Depends(get_db)):
+def update_post(id: int, post: schemas.CreatePost, db: Session = Depends(get_db)):
   # cursor.execute(""" UPDATE posts SET title=%s, content=%s, published=%s WHERE id=%s RETURNING *""", (
   #   post.title,
   #   post.content, post.published,str(id)),)
@@ -126,5 +113,5 @@ def update_post(id: int, post: Post, db: Session = Depends(get_db)):
 
   updated_post.update(post.dict(), synchronize_session=False)
   db.commit()
-  
+
   return {"data": updated_post.first()}
