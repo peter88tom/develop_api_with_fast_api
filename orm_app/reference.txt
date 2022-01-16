@@ -26,5 +26,10 @@ Schema Models
 > Schema/Pydantic Models define the structure of a request/endpoint & response
 > This ensure that when a user wants to create a post, the request will only go through if it has the defined fields in schema
 
+SQLALCHEMY Models
+--------------------
+> Responsible for defining the columns of the table
+> Is used to query, create, delete and update entries within the database
+
 
 
