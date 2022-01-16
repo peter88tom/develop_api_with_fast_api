@@ -21,3 +21,10 @@ FastAPI links
 https://fastapi.tiangolo.com/tutorial/sql-databases/?h=databases
 
 
+Schema Models
+------------------------------
+> Schema/Pydantic Models define the structure of a request/endpoint & response
+> This ensure that when a user wants to create a post, the request will only go through if it has the defined fields in schema
+
+
+
