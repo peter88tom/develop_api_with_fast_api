@@ -5,10 +5,9 @@ from random import randrange
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import time
-from . import models, schemas
+from . import models, schemas, utils
 from .database import engine, get_db
 from sqlalchemy.orm import Session
-
 models.Base.metadata.create_all(bind=engine)
 
 # Create instance
@@ -123,6 +122,9 @@ def update_post(id: int, post: schemas.CreatePost, db: Session = Depends(get_db)
 
 @app.post("/users", status_code=status.HTTP_201_CREATED,response_model=schemas.CreateUserResponse)
 def create_user(user: schemas.CreateUser, db: Session = Depends(get_db)):
+  # Hash the password - user.password
+  user.password = utils.hash_password(user.password)
+
   new_user = models.User(**user.dict())
   db.add(new_user)
   db.commit()
