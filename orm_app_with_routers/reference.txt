@@ -1,0 +1,35 @@
+ORM - Object Rational Mapper
+-----------------------------
+> Layer of abstraction that sits between the database and us
+> We can perform all database operations through traditional python code
+
+
+What you can do with ORM
+--------------------------
+> Instead of manually defining tables in postgres, we can define our tables as python models
+> Queries can be made exclusively through python code
+
+SQLALCHEMY
+--------------
+> Sqlalchemy is one of the most popular python ORMs
+> It is a standalone library and has no association with FastAPI. It can be used with other python web frameworks
+
+
+
+FastAPI links
+------------------
+https://fastapi.tiangolo.com/tutorial/sql-databases/?h=databases
+
+
+Schema Models
+------------------------------
+> Schema/Pydantic Models define the structure of a request/endpoint & response
+> This ensure that when a user wants to create a post, the request will only go through if it has the defined fields in schema
+
+SQLALCHEMY Models
+--------------------
+> Responsible for defining the columns of the table
+> Is used to query, create, delete and update entries within the database
+
+
+
