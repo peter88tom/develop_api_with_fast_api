@@ -43,11 +43,11 @@ def login(user_credentials: OAuth2PasswordRequestForm = Depends() , db: Session 
 
   # Check if user does not exist in the db
   if not user:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid credentials provided")
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid credentials provided")
 
   # Verify user password
   if not utils.verifty(user_credentials.password, user.password):
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Invalid credentials provided")
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Invalid credentials provided")
 
   # Create token
   access_token = oauth2.create_access_token(data={"user_id": user.id})
