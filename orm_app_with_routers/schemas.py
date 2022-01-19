@@ -41,3 +41,9 @@ class CreateUserResponse(BaseModel):
 
   class Config:
     orm_mode= True
+
+
+# Expected data when user try to login
+class UserLogin(BaseModel):
+  email: EmailStr
+  password: str
