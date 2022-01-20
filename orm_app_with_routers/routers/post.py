@@ -13,7 +13,8 @@ router = APIRouter(
 
 # Get list of posts
 @router.get("/", response_model=List[schemas.Post])
-def get_posts(db: Session = Depends(get_db)):
+def get_posts(db: Session = Depends(get_db),
+                user_id: int = Depends(oauth2.get_current_user)):
   # cursor.execute("""SELECT * FROM posts""")
   # posts= cursor.fetchall()
   posts = db.query(models.Post).all()
@@ -49,7 +50,9 @@ def create_post(post: schemas.CreatePost, db: Session = Depends(get_db),
 
 # Get single post
 @router.get("/{id}", response_model=schemas.Post)
-def get_post(id: int, db: Session = Depends(get_db)):
+def get_post(id: int, db: Session = Depends(get_db),
+             user_id: int = Depends(oauth2.get_current_user)):
+  print(user_id)
   # cursor.execute(""" SELECT * FROM posts WHERE id=%s """,(str(id)))
   # post = cursor.fetchone()
   post = db.query(models.Post).filter(models.Post.id==id).first()
@@ -64,7 +67,9 @@ def get_post(id: int, db: Session = Depends(get_db)):
 
 # Delete a post
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_post(id: int, db: Session = Depends(get_db)):
+def delete_post(id: int, db: Session = Depends(get_db),
+                user_id: int = Depends(oauth2.get_current_user)):
+  print(user_id)
   # delete a post
   # cursor.execute(""" DELETE FROM posts WHERE id=%s RETURNING *""",(str(id),))
   # deleted_post = cursor.fetchone()
@@ -81,7 +86,9 @@ def delete_post(id: int, db: Session = Depends(get_db)):
 
 # Update a post
 @router.put("/{id}", response_model=schemas.Post)
-def update_post(id: int, post: schemas.CreatePost, db: Session = Depends(get_db)):
+def update_post(id: int, post: schemas.CreatePost, db: Session = Depends(get_db),
+                user_id: int = Depends(oauth2.get_current_user)):
+  print(user_id)
   # cursor.execute(""" UPDATE posts SET title=%s, content=%s, published=%s WHERE id=%s RETURNING *""", (
   #   post.title,
   #   post.content, post.published,str(id)),)
