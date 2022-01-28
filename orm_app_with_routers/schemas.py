@@ -18,6 +18,7 @@ class CreatePost(PostBase):
 class Post(PostBase):
   id: int
   created_at: datetime
+  owner_i: int
 
   """
   Add class Config to tell pydantic model to read the data

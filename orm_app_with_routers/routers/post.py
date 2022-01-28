@@ -28,6 +28,8 @@ def get_posts(db: Session = Depends(get_db),
 def create_post(post: schemas.CreatePost, db: Session = Depends(get_db),
                 current_user: int = Depends(oauth2.get_current_user)):
   print(current_user.email)
+  owner_id = post.current_user.id
+  post.owner_id = owner_id
   # cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
   #                post.title, post.content, post.published),)
   #
