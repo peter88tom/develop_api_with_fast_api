@@ -80,6 +80,7 @@ def delete_post(id: int, db: Session = Depends(get_db),
 
   if post.first() == None:
     raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f"The post with id: {id} does not exists")
+
   if post.first().owner_id != current_user.id:
     raise  HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
   post.delete(synchronize_session=False)
@@ -105,6 +106,9 @@ def update_post(id: int, post: schemas.CreatePost, db: Session = Depends(get_db)
   if updated_post.first() == None:
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"The post with id: {id} does not exists")
 
+  # Check if the user updating the post is the owner of the post
+  if updated_post.first().owner_id != current_user.id:
+    raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
   updated_post.update(post.dict(), synchronize_session=False)
   db.commit()
 
