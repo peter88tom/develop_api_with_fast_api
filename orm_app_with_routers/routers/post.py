@@ -27,9 +27,7 @@ def get_posts(db: Session = Depends(get_db),
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.Post)
 def create_post(post: schemas.CreatePost, db: Session = Depends(get_db),
                 current_user: int = Depends(oauth2.get_current_user)):
-  print(current_user.email)
-  owner_id = post.current_user.id
-  post.owner_id = owner_id
+  print(current_user.id)
   # cursor.execute(""" INSERT INTO posts (title,content,published) VALUES (%s, %s, %s) RETURNING * """,(
   #                post.title, post.content, post.published),)
   #
@@ -42,7 +40,7 @@ def create_post(post: schemas.CreatePost, db: Session = Depends(get_db),
   # Orm create post
   # new_post = models.Post(title=post.title, content=post.content, published=post.published)
   """ If we have too many fields we need to automatically unpack the fields using **post.dict()"""
-  new_post = models.Post(**post.dict())
+  new_post = models.Post(owner_id=current_user.id,**post.dict())
   db.add(new_post)
   db.commit()
 
