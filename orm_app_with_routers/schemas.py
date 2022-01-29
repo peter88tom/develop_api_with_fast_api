@@ -14,11 +14,22 @@ class CreatePost(PostBase):
   pass
 
 
+
+# Define what to return after user created
+class CreateUserResponse(BaseModel):
+  id: int
+  email : EmailStr
+  created_at: datetime
+
+  class Config:
+    orm_mode= True
+
 # Define what field to return on response
 class Post(PostBase):
   id: int
   created_at: datetime
   owner_id: int
+  owner: CreateUserResponse
 
   """
   Add class Config to tell pydantic model to read the data
@@ -33,16 +44,6 @@ class Post(PostBase):
 class CreateUser(BaseModel):
   email :EmailStr
   password: str
-
-
-# Define what to return after user created
-class CreateUserResponse(BaseModel):
-  id: int
-  email : EmailStr
-  created_at: datetime
-
-  class Config:
-    orm_mode= True
 
 
 # Expected data when user try to login
