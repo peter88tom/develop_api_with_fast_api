@@ -22,7 +22,7 @@ def get_posts(db: Session = Depends(get_db),
   # posts= cursor.fetchall()
   #posts = db.query(models.Post).all()
   #posts = db.query(models.Post).limit(limit).all() # limit some posts
-  posts = db.query(models.Post).limit(limit).offset(skip).all() # skip some post
+  #posts = db.query(models.Post).limit(limit).offset(skip).all() # skip some post
 
   # Add search post by title
   posts = db.query(models.Post)\
