@@ -41,6 +41,17 @@ class Post(PostBase):
     orm_mode= True
 
 
+"""
+Schema for getting posts with the total votes
+"""
+
+class PostVotes(BaseModel):
+  Post: Post
+  total_votes: int
+
+  class Config:
+    orm_mode = True
+
 # Create user
 class CreateUser(BaseModel):
   email :EmailStr
