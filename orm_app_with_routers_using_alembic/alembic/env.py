@@ -5,12 +5,19 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from orm_app_with_routers_using_alembic.config import settings
+
 # Give access to database models
-from orm_app_with_routers_using_alembic.database import Base
+from orm_app_with_routers_using_alembic.models import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# Override postgres path from alembic.in
+SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.database_password}' \
+                          f'@{settings.database_hostname}/{settings.database_name}'
+config.set_main_option("sqlalchemy.url",SQLALCHEMY_DATABASE_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
