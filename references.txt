@@ -3,3 +3,4 @@
 2/ https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 3/ https://www.postgresql.org
 4/ https://www.psycopg.org/docs/
+5/ https://www.youtube.com/watch?v=0sOvCWFmrtA(Tutorial used to develop this application)
