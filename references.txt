@@ -4,3 +4,18 @@
 3/ https://www.postgresql.org
 4/ https://www.psycopg.org/docs/
 5/ https://www.youtube.com/watch?v=0sOvCWFmrtA(Tutorial used to develop this application)
+
+
+# Other references comes up when following this tutorial
+--------------------------------------------------------
+1/ https://testdriven.io/tips/
+2/ https://testdriven.io/blog/fastapi-docker-traefik/
+3/ https://blog.quarkslab.com/category/containers.html
+4/ https://alembic.sqlalchemy.org/en/latest/
+5/ https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/
+6/ https://fastapi.tiangolo.com/tutorial/testing/
+7/ https://www.ontestautomation.com/articles/
+8/ https://www.youtube.com/watch?v=kBbKf9wliuc&list=PLU7aW4OZeUzwYXbC_mbQJdAU7JUu81RZo
+9/ https://www.youtube.com/watch?v=6hTRw_HK3Ts
+10/
+
