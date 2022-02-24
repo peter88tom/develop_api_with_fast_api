@@ -2,7 +2,30 @@ version: "3"
 services:
   api:
     build: .
+    depends_on:
+      - postgres
     ports:
       - "8000:8000"
-    env_file:
-      - ./.env
+#    env_file:
+#      - ./.env
+    environment:
+      - DATABASE_HOSTNAME=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=password123
+      - DATABASE_USERNAME=postgres
+      - DATABASE_NAME=fastapi
+      - SECRET_KEY=c39bb456133e99776f91e70886a605470451af0957d461bf801f86eea518da16
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=30
+  # Database service in our container
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=fastapi
+    # Since our contain can go up and down, means the data saved in the database will vanish
+    # To save the data create Volumes
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+volumes:
+  postgres-db:
